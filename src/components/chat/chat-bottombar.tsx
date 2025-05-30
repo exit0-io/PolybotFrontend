@@ -44,7 +44,6 @@ export default function ChatBottombar({
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
   const base64Images = useChatStore((state) => state.base64Images);
   const setBase64Images = useChatStore((state) => state.setBase64Images);
-  const selectedModel = useChatStore((state) => state.selectedModel);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -158,8 +157,7 @@ export default function ChatBottombar({
                     disabled={
                       isLoading ||
                       !input.trim() ||
-                      isListening ||
-                      !selectedModel
+                      isListening
                     }
                   >
                     <SendHorizonal className="w-5 h-5" />

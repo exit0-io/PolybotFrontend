@@ -56,7 +56,6 @@ export default function Chat({ initialMessages, id, isMobile }: ChatProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const base64Images = useChatStore((state) => state.base64Images);
   const setBase64Images = useChatStore((state) => state.setBase64Images);
-  const selectedModel = useChatStore((state) => state.selectedModel);
   const saveMessages = useChatStore((state) => state.saveMessages);
   const getMessagesById = useChatStore((state) => state.getMessagesById);
   const router = useRouter();
@@ -64,11 +63,6 @@ export default function Chat({ initialMessages, id, isMobile }: ChatProps) {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     window.history.replaceState({}, "", `/c/${id}`);
-
-    if (!selectedModel) {
-      toast.error("Please select a model");
-      return;
-    }
 
     const userMessage: Message = {
       id: generateId(),
@@ -87,7 +81,6 @@ export default function Chat({ initialMessages, id, isMobile }: ChatProps) {
 
     const requestOptions: ChatRequestOptions = {
       body: {
-        selectedModel: selectedModel,
       },
       ...(base64Images && {
         data: {
@@ -155,9 +148,7 @@ export default function Chat({ initialMessages, id, isMobile }: ChatProps) {
               removeLatestMessage();
 
               const requestOptions: ChatRequestOptions = {
-                body: {
-                  selectedModel: selectedModel,
-                },
+                body: {},
               };
 
               setLoadingSubmit(true);
